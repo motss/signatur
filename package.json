@@ -1,11 +1,10 @@
 {
   "name": "signatur",
   "version": "0.0.0",
-  "private": true,
   "description": "Sign and unsign HTTP request with ease",
   "keywords": [
-    "signatur",
     "node",
+    "signatur",
     "typescript"
   ],
   "homepage": "https://github.com/motss/signatur",
@@ -29,10 +28,12 @@
     "lint": "npm run ts && gulp lint && npm run cleanup",
     "nsp": "nsp check",
     "prepublishOnly": "npm run check && npm run build",
+    "test": "jest --config ./.jestrc.json",
     "ts": "tsc --target esnext --lib esnext,esnext.asynciterable --module commonjs gulpfile.ts"
   },
   "dependencies": {},
   "devDependencies": {
+    "@types/jest": "^22.2.0",
     "@types/node": "^9.4.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
@@ -45,7 +46,9 @@
     "gulp-sequence": "^1.0.0",
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^3.2.4",
+    "jest": "^22.4.2",
     "nsp": "^3.1.0",
+    "ts-jest": "^22.4.1",
     "tslint": "^5.9.1",
     "tslint-config-airbnb": "^5.5.0",
     "tslint-consistent-codestyle": "^1.11.0",

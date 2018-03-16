@@ -9,11 +9,11 @@ export declare interface SignaturOptionsError {
 export declare interface SignaturOptions {
   secret: string;
   separator?: string;
-  error?: SignaturOptionsError;
+  error?: SignaturOptionsError | any;
 }
 
 /** Import project dependencies */
-import crypto from 'crypto';
+import * as crypto from 'crypto';
 
 export function signSync<T>(
   rawData: T,
@@ -22,7 +22,7 @@ export function signSync<T>(
   const {
     secret,
     separator = '.',
-  } = options;
+  } = options || {} as SignaturOptions;
 
   if (typeof secret !== 'string' || !secret.length) {
     throw new TypeError('Param secret is not a string');
@@ -61,7 +61,7 @@ export function unsignSync<T>(
     secret,
     separator = '.',
     error,
-  } = options;
+  } = options || {} as SignaturOptions;
 
   if (typeof secret !== 'string' || !secret.length) {
     throw new TypeError('Param secret is not a string');
@@ -108,3 +108,25 @@ export function unsignSync<T>(
 
   return parsed;
 }
+
+export async function sign<T>(
+  rawData: T,
+  options: SignaturOptions = {} as SignaturOptions
+) {
+  return signSync<T>(rawData, options);
+}
+
+export async function unsign<T>(
+  signature: string,
+  options: SignaturOptions = {} as SignaturOptions
+) {
+  return unsignSync<T>(signature, options);
+}
+
+export default {
+  signSync,
+  unsignSync,
+
+  sign,
+  unsign,
+};
