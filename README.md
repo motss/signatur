@@ -163,7 +163,7 @@ void async main() {
 
 - `secret` <[string][string-mdn-url]> Secret used to encrypt the data payload.
 - `separator` <[string][string-mdn-url]> Optional separator. Defaults to period (`.`).
-- `error` <[SignaturOptionsError|any][signaturoptionserror-url]|any> Optional error for bad signature. Defaults to [signaturOptionsError][singaturoptionserror-url].
+- `error` <[SignaturOptionsError][signaturoptionserror-url]|`any`> Optional error for bad signature. Defaults to [SignaturOptionsError][signaturoptionserror-url].
 
 ___
 
