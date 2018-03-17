@@ -21,7 +21,6 @@
 
 [![codebeat-badge]][codebeat-url]
 [![codacy-badge]][codacy-url]
-[![inch-badge]][inch-url]
 
 > Sign and unsign HTTP request with ease
 
