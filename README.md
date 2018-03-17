@@ -169,7 +169,7 @@ ___
 
 ### sign(rawData, options)
 
-- `rawData` <[string][string-mdn-url]> Raw data payload to be signed.
+- `rawData` <`T`> Raw data payload in the type of `T`.
 - `options` <[SignaturOptions][signaturoptions-url]> Options for signing the payload.
 - returns: <[Promise][promise-mdn-url]&lt;[string][string-mdn-url]&gt;> Promise which resolves with a URL-safe base64 encoded HMAC-SHA256 signature that encrypts the raw data payload with a required secret key.
 
@@ -177,7 +177,7 @@ ___
 
 - `signature` <[string][string-mdn-url]> URL-safe signature.
 - `options` <[SignaturOptions][signaturoptions-url]> Options for signing the payload.
-- returns: <[Promise][promise-mdn-url]&lt;[string][string-mdn-url]&gt;> Promise which resolves with decoded data payload.
+- returns: <[Promise][promise-mdn-url]&lt;`T`&gt;> Promise which resolves with decoded data payload in the type of `T`.
 
 Throws a custom error object for bad signature in the type of [SignaturOptionsError][signaturoptionserror-url]. The error object can be customized via the `options[error]`.
 
