@@ -15,6 +15,12 @@ export declare interface SignaturOptions {
 /** Import project dependencies */
 import * as crypto from 'crypto';
 
+export function urlSafeBase64(s: string) {
+  return s.replace(/\+/gi, '-')
+    .replace(/\//gi, '_')
+    .replace(/=/gi, '');
+}
+
 export function signSync<T>(
   rawData: T,
   options: SignaturOptions = {} as SignaturOptions
@@ -36,21 +42,16 @@ export function signSync<T>(
     ? JSON.stringify(rawData)
     : rawData;
 
-  const hashed = Buffer
-    .from(stringifiedData, 'utf8')
-    .toString('base64')
-    .replace(/\+/gi, '-')
-    .replace(/\//gi, '_')
-    .replace(/=/gi, '');
-  const enc = crypto
-    .createHmac('sha256', secret)
-    .update(stringifiedData)
-    .digest('base64')
-    .replace(/\+/gi, '-')
-    .replace(/\//gi, '_')
-    .replace(/=/gi, '');
-
-  return `${hashed}${separator}${enc}`;
+  return urlSafeBase64(`${
+    Buffer
+      .from(stringifiedData, 'utf8')
+      .toString('base64')
+  }${separator}${
+    crypto
+      .createHmac('sha256', secret)
+      .update(stringifiedData)
+      .digest('base64')
+  }`);
 }
 
 export function unsignSync<T>(
@@ -79,13 +80,12 @@ export function unsignSync<T>(
     'base64'
   )
     .toString('utf8');
-  const signedDecoded = crypto
+  const signedDecoded = urlSafeBase64(
+    crypto
     .createHmac('sha256', secret)
     .update(decoded)
     .digest('base64')
-    .replace(/\+/gi, '-')
-    .replace(/\//gi, '_')
-    .replace(/=/gi, '');
+  );
 
   if (enc !== signedDecoded) {
     throw error == null

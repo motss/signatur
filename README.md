@@ -1,5 +1,5 @@
 <div align="center" style="text-align: center;">
-  <h1 style="border-bottom: none;">signatur</h1>
+  <h1 style="border-bottom: none;">@motss/signatur</h1>
 
   <p>Better greeting message</p>
 </div>
@@ -16,6 +16,8 @@
 [![NSP Status][nsp-badge]][nsp-url]
 
 [![Code of Conduct][coc-badge]][coc-url]
+[![codecov][codecov-badge]][codecov-url]
+[![Coverage Status][coveralls-badge]][coveralls-url]
 
 [![codebeat-badge]][codebeat-url]
 [![codacy-badge]][codacy-url]
@@ -24,17 +26,6 @@
 > Sign and unsign HTTP request with ease
 
 ## Table of contents
-
-- [Pre-requisite](#pre-requisite)
-- [Setup](#setup)
-  - [Install](#install)
-  - [Usage](#usage)
-    - [Node.js](#nodejs)
-    - [Native ES modules or TypeScript](#native-es-modules-or-typescript)
-- [API Reference](#api-reference)
-  - [greeting(name)](#greetingname)
-  - [greetingSync(name)](#greetingsyncname)
-- [License](#license)
 
 ## Pre-requisites
 
@@ -47,7 +38,7 @@
 
 ```sh
 # Install via NPM
-$ npm install --save signatur
+$ npm install --save @motss/signatur
 ```
 
 ### Usage
@@ -55,7 +46,7 @@ $ npm install --save signatur
 #### Node.js
 
 ```js
-const greeting = require('signatur');
+const greeting = require('@motss/signatur');
 ```
 
 #### Native ES modules or TypeScript
@@ -63,15 +54,15 @@ const greeting = require('signatur');
 ```ts
 // @ts-check
 
-import greeting from 'signatur';
+import greeting from '@motss/signatur';
 ```
 
 ## API Reference
 
 ### greeting(name)
 
-  - name <[string][string-mdn-url]> Name of the person to greet at.
-  - returns: <[Promise][promise-mdn-url]&lt;[string][string-mdn-url]&gt;> Promise which resolves with a greeting message.
+- name <[string][string-mdn-url]> Name of the person to greet at.
+- returns: <[Promise][promise-mdn-url]&lt;[string][string-mdn-url]&gt;> Promise which resolves with a greeting message.
 
 ### greetingSync(name)
 
@@ -81,8 +72,7 @@ This methods works the same as `greeting(name)` except that this is the synchron
 
 [MIT License](https://motss.mit-license.org/) © Rong Sen Ng
 
-
-
+<!-- References -->
 [typescript-url]: https://github.com/Microsoft/TypeScript
 [node-js-url]: https://nodejs.org
 [npm-url]: https://www.npmjs.com
@@ -99,37 +89,37 @@ This methods works the same as `greeting(name)` except that this is the synchron
 [set-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
 [string-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
 
-
-
-[nodei-badge]: https://nodei.co/npm/signatur.png?downloads=true&downloadRank=true&stars=true
+<!-- Badges -->
+[nodei-badge]: https://nodei.co/npm/@motss/signatur.png?downloads=true&downloadRank=true&stars=true
 
 [travis-badge]: https://img.shields.io/travis/motss/signatur.svg?style=flat-square
 
-[version-badge]: https://img.shields.io/npm/v/signatur.svg?style=flat-square
-[downloads-badge]: https://img.shields.io/npm/dm/signatur.svg?style=flat-square
+[version-badge]: https://img.shields.io/npm/v/@motss/signatur.svg?style=flat-square
+[downloads-badge]: https://img.shields.io/npm/dm/@motss/signatur.svg?style=flat-square
 [mit-license-badge]: https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square
-[nsp-badge]: https://nodesecurity.io/orgs/motss/projects/a1c57ec8-9c17-4912-932b-f1ff6284e2ae/badge?style=flat-square
+[nsp-badge]: https://nodesecurity.io/orgs/motss/projects/7746c9f7-eefb-4f62-a346-d1c4e3eb43db/badge?style=flat-square
 [daviddm-badge]: https://img.shields.io/david/motss/signatur.svg?style=flat-square
 
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
+[codecov-badge]: https://codecov.io/gh/motss/signatur/branch/master/graph/badge.svg
+[coveralls-badge]: https://coveralls.io/repos/github/motss/signatur/badge.svg?branch=master&style=flat-square
 
-[codebeat-badge]: https://codebeat.co/badges/e486e791-12b7-4198-b834-0fa5bd04e1c3?style=flat-square
-[codacy-badge]: https://api.codacy.com/project/badge/Grade/a70d1556b4e74711a162c4fd4dbb68a1?style=flat-square
-[inch-badge]: http://inch-ci.org/github/motss/signatur.svg?branch=master&style=flat-square
+[codebeat-badge]: https://codebeat.co/badges/ca431b21-4c3b-48bb-888f-f0ebdccfcd58?style=flat-square
+[codacy-badge]: https://api.codacy.com/project/badge/Grade/a25123110779476696d2d453c536f43d?style=flat-square
 
-
-
-[nodei-url]: https://nodei.co/npm/signatur
+<!-- Links -->
+[nodei-url]: https://nodei.co/npm/@motss/signatur
 
 [travis-url]: https://travis-ci.org/motss/signatur
-[version-url]: https://npmjs.org/package/signatur
-[downloads-url]: http://www.npmtrends.com/signatur
+[version-url]: https://npmjs.org/package/@motss/signatur
+[downloads-url]: http://www.npmtrends.com/@motss/signatur
 [mit-license-url]: https://github.com/motss/signatur/blob/master/LICENSE
-[nsp-url]: https://nodesecurity.io/orgs/motss/projects/a1c57ec8-9c17-4912-932b-f1ff6284e2ae
+[nsp-url]: https://nodesecurity.io/orgs/motss/projects/7746c9f7-eefb-4f62-a346-d1c4e3eb43db
 [daviddm-url]: https://david-dm.org/motss/signatur
 
 [coc-url]: https://github.com/motss/signatur/blob/master/CODE_OF_CONDUCT.md
+[codecov-url]: https://codecov.io/gh/motss/signatur
+[coveralls-url]: https://coveralls.io/github/motss/signatur?branch=master
 
 [codebeat-url]: https://codebeat.co/projects/github-com-motss-signatur-master
 [codacy-url]: https://www.codacy.com/app/motss/signatur?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=motss/signatur&amp;utm_campaign=Badge_Grade
-[inch-url]: http://inch-ci.org/github/motss/signatur
