@@ -1,11 +1,16 @@
 {
   "name": "@motss/signatur",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Sign and unsign HTTP request with ease",
   "keywords": [
+    "http-signature",
     "node",
+    "sign-http-request",
     "signatur",
-    "typescript"
+    "signature",
+    "signed-request",
+    "typescript",
+    "unsign-http-request"
   ],
   "homepage": "https://github.com/motss/signatur",
   "license": "MIT",
