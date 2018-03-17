@@ -1,7 +1,7 @@
 <div align="center" style="text-align: center;">
   <h1 style="border-bottom: none;">@motss/signatur</h1>
 
-  <p>Better greeting message</p>
+  <p>Sign and unsign HTTP request with ease</p>
 </div>
 
 <hr />
@@ -22,9 +22,24 @@
 [![codebeat-badge]][codebeat-url]
 [![codacy-badge]][codacy-url]
 
-> Sign and unsign HTTP request with ease
+> It is always a recommended best practice to sign every HTTP request that contains any payload to ensure that the payload that sends along has not been tampered with. This module provides some handy methods to sign and unsign the data payload.
 
 ## Table of contents
+
+- [Pre-requisites](#pre-requisites)
+- [Setup](#setup)
+  - [Install](#install)
+  - [Usage](#usage)
+    - [Node.js](#nodejs)
+    - [Native ES modules or TypeScript](#native-es-modules-or-typescript)
+- [API Reference](#api-reference)
+  - [SignaturOptionsError](#signaturoptionserror)
+  - [SignaturOptions](#signaturoptions)
+  - [sign(rawData, options)](#signrawdata-options)
+  - [unsign(signature, options)](#unsignsignature-options)
+  - [signSync(rawData, options)](#signsyncrawdata-options)
+  - [unsignSync(rawData, options)](#unsignsyncrawdata-options)
+- [License](#license)
 
 ## Pre-requisites
 
@@ -45,7 +60,47 @@ $ npm install --save @motss/signatur
 #### Node.js
 
 ```js
-const greeting = require('@motss/signatur');
+const {
+  sign,
+  unsign,
+
+  // signSync,
+  // unsignSync,
+} = require('@motss/signatur');
+
+void async main() {
+  const payload = {
+    id: 'b4cd8c1',
+    t: '1580581220222',
+  };
+  const signedRequest = await sign(payload, {
+    secret: 'fixed-secret',
+    separator: ':',
+  });
+
+  assert.strictEqual(
+    signedRequest,
+    'eyJpZCI6ImI0Y2Q4YzEiLCJ0IjoiMTU4MDU4MTIyMDIyMiJ9:vXRKs8XZlLq1iJrPaYDsBsrLegjedzUCd3pnQqMB2Qg'
+  ); // OK
+
+  try {
+    await unsign(
+      'eyJpZCI6ImI0Y2Q4YzEiLCJ0IjoiMTU4MDU4MTIyMDIyMiJ9:vXRKs8XZlLq1iJrPaYDsBsrLegjedzUCd3pnQqMB2Qg',
+      {
+        secret: 'fixed-secret',
+        // separator: ':',
+        // error: new Error('Bad signature detected'),
+      }
+    );
+  } catch (e) {
+    assert.deepEqual(e, {
+      error: {
+        type: 'invalid-signature',
+        message: 'Signature not match',
+      },
+    }); // OK
+  }
+}()
 ```
 
 #### Native ES modules or TypeScript
@@ -53,19 +108,86 @@ const greeting = require('@motss/signatur');
 ```ts
 // @ts-check
 
-import greeting from '@motss/signatur';
+import {
+  sign,
+  unsign,
+
+  // signSync,
+  // unsignSync,
+} from '@motss/signatur';
+
+void async main() {
+  const payload = {
+    id: 'b4cd8c1',
+    t: '1580581220222',
+  };
+  const signedRequest = await sign(payload, {
+    secret: 'fixed-secret',
+    separator: ':',
+  });
+
+  assert.strictEqual(
+    signedRequest,
+    'eyJpZCI6ImI0Y2Q4YzEiLCJ0IjoiMTU4MDU4MTIyMDIyMiJ9:vXRKs8XZlLq1iJrPaYDsBsrLegjedzUCd3pnQqMB2Qg'
+  ); // OK
+
+  try {
+    await unsign(
+      'eyJpZCI6ImI0Y2Q4YzEiLCJ0IjoiMTU4MDU4MTIyMDIyMiJ9:vXRKs8XZlLq1iJrPaYDsBsrLegjedzUCd3pnQqMB2Qg',
+      {
+        secret: 'fixed-secret',
+        // separator: ':',
+        // error: new Error('Bad signature detected'),
+      }
+    );
+  } catch (e) {
+    assert.deepEqual(e, {
+      error: {
+        type: 'invalid-signature',
+        message: 'Signature not match',
+      },
+    }); // OK
+  }
+}()
 ```
 
 ## API Reference
 
-### greeting(name)
+### SignaturOptionsError
 
-- name <[string][string-mdn-url]> Name of the person to greet at.
-- returns: <[Promise][promise-mdn-url]&lt;[string][string-mdn-url]&gt;> Promise which resolves with a greeting message.
+- `error` <[Object][object-mdn-url]> Error object for bad signature.
+  - `type` <[string][string-mdn-url]> Error type. Defaults to `invalid-signature`.
+  - `message` <[string][string-mdn-url]> Error message. Defauls to `Signature not match`.
 
-### greetingSync(name)
+### SignaturOptions
 
-This methods works the same as `greeting(name)` except that this is the synchronous version.
+- `secret` <[string][string-mdn-url]> Secret used to encrypt the data payload.
+- `separator` <[string][string-mdn-url]> Optional separator. Defaults to period (`.`).
+- `error` <[SignaturOptionsError|any][signaturoptionserror-url]|any> Optional error for bad signature. Defaults to [signaturOptionsError][singaturoptionserror-url].
+
+___
+
+### sign(rawData, options)
+
+- `rawData` <[string][string-mdn-url]> Raw data payload to be signed.
+- `options` <[SignaturOptions][signaturoptions-url]> Options for signing the payload.
+- returns: <[Promise][promise-mdn-url]&lt;[string][string-mdn-url]&gt;> Promise which resolves with a URL-safe base64 encoded HMAC-SHA256 signature that encrypts the raw data payload with a required secret key.
+
+### unsign(signature, options)
+
+- `signature` <[string][string-mdn-url]> URL-safe signature.
+- `options` <[SignaturOptions][signaturoptions-url]> Options for signing the payload.
+- returns: <[Promise][promise-mdn-url]&lt;[string][string-mdn-url]&gt;> Promise which resolves with decoded data payload.
+
+Throws a custom error object for bad signature in the type of [SignaturOptionsError][signaturoptionserror-url]. The error object can be customized via the `options[error]`.
+
+### signSync(rawData, options)
+
+This methods works the same as `sign(rawData, options)` except that this is the synchronous version.
+
+### unsignSync(rawData, options)
+
+This methods works the same as `unsign(signature, options)` except that this is the synchronous version.
 
 ## License
 
@@ -87,6 +209,9 @@ This methods works the same as `greeting(name)` except that this is the synchron
 [regexp-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 [set-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
 [string-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[signaturoptionserror-url]: #signaturoptionserror
+[signaturoptions-url]: #signaturoptions
 
 <!-- Badges -->
 [nodei-badge]: https://nodei.co/npm/@motss/signatur.png?downloads=true&downloadRank=true&stars=true
