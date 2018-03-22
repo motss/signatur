@@ -8,14 +8,14 @@
 
 [![NPM][nodei-badge]][nodei-url]
 
-[![Build Status][travis-badge]][travis-url]
 [![Version][version-badge]][version-url]
 [![Downloads][downloads-badge]][downloads-url]
 [![MIT License][mit-license-badge]][mit-license-url]
+[![Code of Conduct][coc-badge]][coc-url]
+
+[![Build Status][travis-badge]][travis-url]
 [![Dependency Status][daviddm-badge]][daviddm-url]
 [![NSP Status][nsp-badge]][nsp-url]
-
-[![Code of Conduct][coc-badge]][coc-url]
 [![codecov][codecov-badge]][codecov-url]
 [![Coverage Status][coveralls-badge]][coveralls-url]
 
@@ -216,15 +216,14 @@ This methods works the same as `unsign(signature, options)` except that this is 
 <!-- Badges -->
 [nodei-badge]: https://nodei.co/npm/@motss/signatur.png?downloads=true&downloadRank=true&stars=true
 
-[travis-badge]: https://img.shields.io/travis/motss/signatur.svg?style=flat-square
-
 [version-badge]: https://img.shields.io/npm/v/@motss/signatur.svg?style=flat-square
 [downloads-badge]: https://img.shields.io/npm/dm/@motss/signatur.svg?style=flat-square
 [mit-license-badge]: https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square
-[nsp-badge]: https://nodesecurity.io/orgs/motss/projects/7746c9f7-eefb-4f62-a346-d1c4e3eb43db/badge?style=flat-square
-[daviddm-badge]: https://img.shields.io/david/motss/signatur.svg?style=flat-square
-
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
+
+[travis-badge]: https://img.shields.io/travis/motss/signatur.svg?style=flat-square
+[daviddm-badge]: https://img.shields.io/david/motss/signatur.svg?style=flat-square
+[nsp-badge]: https://nodesecurity.io/orgs/motss/projects/7746c9f7-eefb-4f62-a346-d1c4e3eb43db/badge?style=flat-square
 [codecov-badge]: https://codecov.io/gh/motss/signatur/branch/master/graph/badge.svg
 [coveralls-badge]: https://coveralls.io/repos/github/motss/signatur/badge.svg?branch=master&style=flat-square
 
@@ -234,14 +233,14 @@ This methods works the same as `unsign(signature, options)` except that this is 
 <!-- Links -->
 [nodei-url]: https://nodei.co/npm/@motss/signatur
 
-[travis-url]: https://travis-ci.org/motss/signatur
 [version-url]: https://npmjs.org/package/@motss/signatur
 [downloads-url]: http://www.npmtrends.com/@motss/signatur
 [mit-license-url]: https://github.com/motss/signatur/blob/master/LICENSE
-[nsp-url]: https://nodesecurity.io/orgs/motss/projects/7746c9f7-eefb-4f62-a346-d1c4e3eb43db
-[daviddm-url]: https://david-dm.org/motss/signatur
-
 [coc-url]: https://github.com/motss/signatur/blob/master/CODE_OF_CONDUCT.md
+
+[travis-url]: https://travis-ci.org/motss/signatur
+[daviddm-url]: https://david-dm.org/motss/signatur
+[nsp-url]: https://nodesecurity.io/orgs/motss/projects/7746c9f7-eefb-4f62-a346-d1c4e3eb43db
 [codecov-url]: https://codecov.io/gh/motss/signatur
 [coveralls-url]: https://coveralls.io/github/motss/signatur?branch=master
 

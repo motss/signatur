@@ -13,7 +13,7 @@ export declare interface SignaturOptions {
 }
 
 /** Import project dependencies */
-import * as crypto from 'crypto';
+import crypto from 'crypto';
 
 export function urlSafeBase64(s: string) {
   return s.replace(/\+/gi, '-')
@@ -82,9 +82,9 @@ export function unsignSync<T>(
     .toString('utf8');
   const signedDecoded = urlSafeBase64(
     crypto
-    .createHmac('sha256', secret)
-    .update(decoded)
-    .digest('base64')
+      .createHmac('sha256', secret)
+      .update(decoded)
+      .digest('base64')
   );
 
   if (enc !== signedDecoded) {

@@ -1,12 +1,12 @@
 // @ts-check
 
 /** Import project dependencies */
-import * as del from 'del';
-import * as gulp from 'gulp';
-import * as babel from 'gulp-babel';
-import * as sq from 'gulp-sequence';
+import del from 'del';
+import gulp from 'gulp';
+import babel from 'gulp-babel';
+import sq from 'gulp-sequence';
 import lint from 'gulp-tslint';
-import * as ts from 'gulp-typescript';
+import ts from 'gulp-typescript';
 import * as tslint from 'tslint';
 
 /** Setting up */
