@@ -1,31 +1,35 @@
 <div align="center" style="text-align: center;">
-  <h1 style="border-bottom: none;">@motss/signatur</h1>
+  <h1 style="border-bottom: none;">signatur</h1>
 
   <p>Sign and unsign HTTP request with ease</p>
 </div>
 
 <hr />
 
-[![NPM][nodei-badge]][nodei-url]
-
 [![Version][version-badge]][version-url]
-[![Downloads][downloads-badge]][downloads-url]
+[![Node version][node-version-badge]][node-version-url]
 [![MIT License][mit-license-badge]][mit-license-url]
-[![Code of Conduct][coc-badge]][coc-url]
+
+[![Downloads][downloads-badge]][downloads-url]
+[![Total downloads][total-downloads-badge]][downloads-url]
+[![Packagephobia][packagephobia-badge]][packagephobia-url]
+[![Bundlephobia][bundlephobia-badge]][bundlephobia-url]
 
 [![Build Status][travis-badge]][travis-url]
+[![CircleCI][circleci-badge]][circleci-url]
 [![Dependency Status][daviddm-badge]][daviddm-url]
-[![NSP Status][nsp-badge]][nsp-url]
 [![codecov][codecov-badge]][codecov-url]
 [![Coverage Status][coveralls-badge]][coveralls-url]
 
-[![codebeat-badge]][codebeat-url]
-[![codacy-badge]][codacy-url]
+[![codebeat badge][codebeat-badge]][codebeat-url]
+[![Codacy Badge][codacy-badge]][codacy-url]
+[![Code of Conduct][coc-badge]][coc-url]
 
 > It is always a recommended best practice to sign every HTTP request that contains any payload to ensure that the payload that sends along has not been tampered with. This module provides some handy methods to sign and unsign the data payload.
 
 ## Table of contents
 
+- [Table of contents](#table-of-contents)
 - [Pre-requisites](#pre-requisites)
 - [Setup](#setup)
   - [Install](#install)
@@ -33,12 +37,12 @@
     - [Node.js](#nodejs)
     - [Native ES modules or TypeScript](#native-es-modules-or-typescript)
 - [API Reference](#api-reference)
-  - [SignaturOptionsError](#signaturoptionserror)
+  - [SignaturError](#signaturerror)
   - [SignaturOptions](#signaturoptions)
-  - [sign(rawData, options)](#signrawdata-options)
-  - [unsign(signature, options)](#unsignsignature-options)
-  - [signSync(rawData, options)](#signsyncrawdata-options)
-  - [unsignSync(rawData, options)](#unsignsyncrawdata-options)
+  - [sign(data, secret[, options])](#signdata-secret-options)
+  - [unsign(signature, secret[, options])](#unsignsignature-secret-options)
+  - [signSync(data, secret[, options])](#signsyncdata-secret-options)
+  - [unsignSync(data, secret[, options])](#unsignsyncdata-secret-options)
 - [License](#license)
 
 ## Pre-requisites
@@ -153,7 +157,7 @@ void async main() {
 
 ## API Reference
 
-### SignaturOptionsError
+### SignaturError
 
 - `error` <[Object][object-mdn-url]> Error object for bad signature.
   - `type` <[string][string-mdn-url]> Error type. Defaults to `invalid-signature`.
@@ -161,33 +165,34 @@ void async main() {
 
 ### SignaturOptions
 
-- `secret` <[string][string-mdn-url]> Secret used to encrypt the data payload.
-- `separator` <[string][string-mdn-url]> Optional separator. Defaults to period (`.`).
-- `error` <[SignaturOptionsError][signaturoptionserror-url]|`any`> Optional error for bad signature. Defaults to [SignaturOptionsError][signaturoptionserror-url].
+- `separator` <[?string][string-mdn-url]> Optional separator. Defaults to period (`.`).
 
 ___
 
-### sign(rawData, options)
 
-- `rawData` <`T`> Raw data payload in the type of `T`.
-- `options` <[SignaturOptions][signaturoptions-url]> Options for signing the payload.
-- returns: <[Promise][promise-mdn-url]&lt;[string][string-mdn-url]&gt;> Promise which resolves with a URL-safe base64 encoded HMAC-SHA256 signature that encrypts the raw data payload with a required secret key.
+### sign(data, secret[, options])
 
-### unsign(signature, options)
+- `data` <`T`> Raw data payload in the type of `T`.
+- `secret` <[string][string-mdn-url]> Secret used to encrypt the data payload.
+- `options` <[?SignaturOptions][signaturoptions-url]> Options for signing the payload.
+- returns: <[Promise][promise-mdn-url]&lt;[string][string-mdn-url]&gt;> Promise which resolves with a URL-safe base64 encoded `HMAC-SHA256` signature that encrypts the raw data payload with a required secret key.
+
+### unsign(signature, secret[, options])
 
 - `signature` <[string][string-mdn-url]> URL-safe signature.
-- `options` <[SignaturOptions][signaturoptions-url]> Options for signing the payload.
+- `secret` <[string][string-mdn-url]> Secret used to encrypt the data payload.
+- `options` <[?SignaturOptions][signaturoptions-url]> Options for signing the payload.
 - returns: <[Promise][promise-mdn-url]&lt;`T`&gt;> Promise which resolves with decoded data payload in the type of `T`.
 
-Throws a custom error object for bad signature in the type of [SignaturOptionsError][signaturoptionserror-url]. The error object can be customized via the `options[error]`.
+Throws a error object for bad signature in the type of [SignaturError][signaturerror-url].
 
-### signSync(rawData, options)
+### signSync(data, secret[, options])
 
-This methods works the same as `sign(rawData, options)` except that this is the synchronous version.
+This methods works the same as `sign(data, secret[, options])` except that this is the synchronous version.
 
-### unsignSync(rawData, options)
+### unsignSync(data, secret[, options])
 
-This methods works the same as `unsign(signature, options)` except that this is the synchronous version.
+This methods works the same as `unsign(signature, secret[, options])` except that this is the synchronous version.
 
 ## License
 
@@ -210,39 +215,44 @@ This methods works the same as `unsign(signature, options)` except that this is 
 [set-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
 [string-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[signaturoptionserror-url]: #signaturoptionserror
+[signaturerror-url]: #signaturerror
 [signaturoptions-url]: #signaturoptions
 
 <!-- Badges -->
-[nodei-badge]: https://nodei.co/npm/@motss/signatur.png?downloads=true&downloadRank=true&stars=true
+[version-badge]: https://flat.badgen.net/npm/v/@motss/signatur
+[node-version-badge]: https://flat.badgen.net/npm/node/@motss/signatur
+[mit-license-badge]: https://flat.badgen.net/npm/license/@motss/signatur
 
-[version-badge]: https://img.shields.io/npm/v/@motss/signatur.svg?style=flat-square
-[downloads-badge]: https://img.shields.io/npm/dm/@motss/signatur.svg?style=flat-square
-[mit-license-badge]: https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square
-[coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
+[downloads-badge]: https://flat.badgen.net/npm/dm/@motss/signatur
+[total-downloads-badge]: https://flat.badgen.net/npm/dt/@motss/signatur?label=total%20downloads
+[packagephobia-badge]: https://flat.badgen.net/packagephobia/install/@motss/signatur
+[bundlephobia-badge]: https://flat.badgen.net/bundlephobia/minzip/@motss/signatur
 
-[travis-badge]: https://img.shields.io/travis/motss/signatur.svg?style=flat-square
-[daviddm-badge]: https://img.shields.io/david/motss/signatur.svg?style=flat-square
-[nsp-badge]: https://nodesecurity.io/orgs/motss/projects/7746c9f7-eefb-4f62-a346-d1c4e3eb43db/badge?style=flat-square
-[codecov-badge]: https://codecov.io/gh/motss/signatur/branch/master/graph/badge.svg
-[coveralls-badge]: https://coveralls.io/repos/github/motss/signatur/badge.svg?branch=master&style=flat-square
+[travis-badge]: https://flat.badgen.net/travis/motss/signatur
+[circleci-badge]: https://flat.badgen.net/circleci/github/motss/signatur
+[daviddm-badge]: https://flat.badgen.net/david/dep/motss/signatur
+[codecov-badge]: https://flat.badgen.net/codecov/c/github/motss/signatur?label=codecov
+[coveralls-badge]: https://flat.badgen.net/coveralls/c/github/motss/signatur?label=coveralls
 
 [codebeat-badge]: https://codebeat.co/badges/ca431b21-4c3b-48bb-888f-f0ebdccfcd58?style=flat-square
 [codacy-badge]: https://api.codacy.com/project/badge/Grade/a25123110779476696d2d453c536f43d?style=flat-square
+[coc-badge]: https://flat.badgen.net/badge/code%20of/conduct/pink
 
 <!-- Links -->
-[nodei-url]: https://nodei.co/npm/@motss/signatur
-
-[version-url]: https://npmjs.org/package/@motss/signatur
-[downloads-url]: http://www.npmtrends.com/@motss/signatur
+[version-url]: https://www.npmjs.com/package/@motss/signatur
+[node-version-url]: https://nodejs.org/en/download
 [mit-license-url]: https://github.com/motss/signatur/blob/master/LICENSE
-[coc-url]: https://github.com/motss/signatur/blob/master/CODE_OF_CONDUCT.md
+
+[downloads-url]: https://www.npmtrends.com/@motss/signatur
+[packagephobia-url]: https://packagephobia.now.sh/result?p=%40motss%2Fsignatur
+[bundlephobia-url]: https://bundlephobia.com/result?p=@motss/signatur
 
 [travis-url]: https://travis-ci.org/motss/signatur
+[circleci-url]: https://circleci.com/gh/motss/signatur/tree/master
 [daviddm-url]: https://david-dm.org/motss/signatur
-[nsp-url]: https://nodesecurity.io/orgs/motss/projects/7746c9f7-eefb-4f62-a346-d1c4e3eb43db
 [codecov-url]: https://codecov.io/gh/motss/signatur
 [coveralls-url]: https://coveralls.io/github/motss/signatur?branch=master
 
 [codebeat-url]: https://codebeat.co/projects/github-com-motss-signatur-master
 [codacy-url]: https://www.codacy.com/app/motss/signatur?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=motss/signatur&amp;utm_campaign=Badge_Grade
+[coc-url]: https://github.com/motss/signatur/blob/master/CODE_OF_CONDUCT.md
