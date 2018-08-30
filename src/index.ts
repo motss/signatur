@@ -1,126 +1,129 @@
 // @ts-check
 
-export declare interface SignaturOptionsError {
+export interface SignaturOptions {
+  separator?: string;
+}
+
+declare interface DecodedData<T> {
+  data: T;
+}
+declare interface SignaturReturnError {
   error: {
     type: string;
     message: string;
   };
 }
-export declare interface SignaturOptions {
-  secret: string;
-  separator?: string;
-  error?: SignaturOptionsError | any;
+declare interface KeyStringAny {
+  [key: string]: any;
 }
 
-/** Import project dependencies */
 import crypto from 'crypto';
 
-export function urlSafeBase64(s: string) {
+export class SignaturError extends Error {
+  public type: string;
+
+  constructor(type: string, message: string) {
+    super();
+
+    this.name = 'SignaturError';
+    this.message = message;
+    this.type = type;
+
+  }
+
+  public toJSON(): SignaturReturnError {
+    return {
+      error: {
+        type: this.type,
+        message: this.message,
+      },
+    };
+  }
+}
+
+function urlSafeBase64(s: string) {
   return s.replace(/\+/gi, '-')
     .replace(/\//gi, '_')
     .replace(/=/gi, '');
 }
 
-export function signSync<T>(
-  rawData: T,
-  options: SignaturOptions = {} as SignaturOptions
+export function signSync<T = KeyStringAny>(
+  data: T,
+  secret: string,
+  options?: SignaturOptions
 ) {
   const {
-    secret,
     separator = '.',
   } = options || {} as SignaturOptions;
 
+  if (data == null) {
+    throw new TypeError(
+      `Expected 'data' to be defined, but received '${JSON.stringify(data)}'`);
+  }
+
   if (typeof secret !== 'string' || !secret.length) {
-    throw new TypeError('Param secret is not a string');
+    throw new TypeError(`Expected 'secret' to be defined, but received '${secret}'`);
   }
 
-  if (rawData == null) {
-    throw new TypeError('Param rawData is undefined');
-  }
-
-  const stringifiedData = typeof rawData !== 'string'
-    ? JSON.stringify(rawData)
-    : rawData;
+  // const stringifiedData = typeof data !== 'string' ? JSON.stringify({ data }) : data;
+  const stringData = JSON.stringify({ data });
 
   return urlSafeBase64(`${
-    Buffer
-      .from(stringifiedData, 'utf8')
-      .toString('base64')
-  }${separator}${
-    crypto
-      .createHmac('sha256', secret)
-      .update(stringifiedData)
-      .digest('base64')
-  }`);
+    Buffer.from(stringData, 'utf8').toString('base64')}${
+    separator}${
+    crypto.createHmac('sha256', secret).update(stringData).digest('base64')}`);
 }
 
-export function unsignSync<T>(
+export function unsignSync<T = KeyStringAny>(
   signature: string,
-  options: SignaturOptions = {} as SignaturOptions
-) {
+  secret: string,
+  options?: SignaturOptions
+): T {
   const {
-    secret,
     separator = '.',
-    error,
   } = options || {} as SignaturOptions;
 
-  if (typeof secret !== 'string' || !secret.length) {
-    throw new TypeError('Param secret is not a string');
+  if (typeof signature !== 'string' || !signature.length) {
+    throw new TypeError(`Expected 'signature' to be defined, but received '${signature}'`);
   }
 
-  if (typeof signature !== 'string' || !signature.length) {
-    throw new TypeError('Param signature is not a string');
+  if (typeof secret !== 'string' || !secret.length) {
+    throw new TypeError(`Expected 'secret' to be defined, but received '${secret}'`);
   }
 
   const [hash, enc] = signature.split(separator, 2);
   const decoded = Buffer.from(
     (hash + '==='.slice((hash.length + 3) % 4))
       .replace(/\-/gi, '+')
-      .replace(/_/gi, '/'),
-    'base64'
-  )
-    .toString('utf8');
+      .replace(/_/gi, '/'), 'base64')
+      .toString('utf8');
   const signedDecoded = urlSafeBase64(
     crypto
       .createHmac('sha256', secret)
       .update(decoded)
-      .digest('base64')
-  );
+      .digest('base64'));
 
   if (enc !== signedDecoded) {
-    throw error == null
-      ? {
-        error: {
-          type: 'invalid-signature',
-          message: 'Signature not match',
-        },
-      }
-      : error as any;
+    throw new SignaturError('invalid_signature', 'Signature not match');
   }
 
-  const parsed = (() => {
-    try {
-      return JSON.parse(decoded) as T;
-    } catch (e) {
-      return decoded as string;
-    }
-  })();
-
-  return parsed;
+  return (JSON.parse(decoded) as DecodedData<T>).data;
 }
 
-export async function sign<T>(
-  rawData: T,
-  options: SignaturOptions = {} as SignaturOptions
+export async function sign<T = KeyStringAny>(
+  data: T,
+  secret: string,
+  options?: SignaturOptions
 ) {
-  return signSync<T>(rawData, options);
+  return signSync<T>(data, secret, options);
 }
 
-export async function unsign<T>(
+export async function unsign<T = KeyStringAny>(
   signature: string,
-  options: SignaturOptions = {} as SignaturOptions
-) {
-  return unsignSync<T>(signature, options);
+  secret: string,
+  options?: SignaturOptions
+): Promise<T> {
+  return unsignSync<T>(signature, secret, options);
 }
 
 export default {

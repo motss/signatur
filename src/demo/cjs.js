@@ -1,6 +1,6 @@
 // @ts-check
 
-const signatur = require('../../');
+const signatur = require('..');
 
 void async function main() {
   try {
@@ -10,11 +10,10 @@ void async function main() {
       last_name: 'Doe',
       timestamp: '2020-02-02T02:20:202',
     };
-    const opts = {
-      secret: 'test-secret',
-    };
-    const enc = await signatur.sign(payload, opts);
-    const dec = await signatur.unsign(enc, opts);
+    const secret = 'test-secret';
+
+    const enc = await signatur.sign(payload, secret);
+    const dec = await signatur.unsign(enc, secret);
 
     console.log({ enc, dec });
   } catch (e) {

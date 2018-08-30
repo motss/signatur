@@ -7,7 +7,7 @@ export default interface Payload {
   timestamp: string;
 }
 
-import signatur from '../../';
+import signatur from '..';
 
 void async function main() {
   try {
@@ -17,11 +17,9 @@ void async function main() {
       last_name: 'Doe',
       timestamp: '2020-02-02T02:20:202',
     };
-    const opts = {
-      secret: 'test-secret',
-    };
-    const enc = await signatur.sign(payload, opts);
-    const dec = await signatur.unsign<Payload>(enc, opts) as Payload;
+    const secret = 'test-secret';
+    const enc = await signatur.sign(payload, secret);
+    const dec = await signatur.unsign<string>(enc, secret);
 
     console.log({ enc, dec });
   } catch (e) {

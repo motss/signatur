@@ -1,200 +1,163 @@
 // @ts-check
 
-/** Import other modules */
-import {
-  sign,
-  signSync,
+import { sign, unsign } from '..';
 
-  unsign,
-  unsignSync,
-} from '..';
-
-/** setting up */
 const getRandSecret = () => Math.random().toString(16).slice(-7);
 
-describe('fail', () => {
-  test('options[secret] is optional', () => {
-    try {
-      signSync(null);
-    } catch (e) {
-      expect(e instanceof TypeError).toBe(true);
-      expect(e.message).toEqual('Param secret is not a string');
-    }
-  });
+describe('signatur', () => {
+  const secret = '123';
+  const data = {
+    secretInside: '123',
+    secretKey: 456,
+  };
 
-  test('Param secret is not a string', () => {
-    try {
-      signSync(null, null);
-    } catch (e) {
-      expect(e instanceof TypeError).toBe(true);
-      expect(e.message).toEqual('Param secret is not a string');
-    }
-  });
-
-  test('Param rawData is not a string', () => {
-    try {
-      signSync(null, {
-        secret: getRandSecret(),
-      });
-    } catch (e) {
-      expect(e instanceof TypeError).toBe(true);
-      expect(e.message).toEqual('Param rawData is undefined');
-    }
-  });
-
-  test('options[secret] is optional', () => {
-    try {
-      unsignSync(null);
-    } catch (e) {
-      expect(e instanceof TypeError).toBe(true);
-      expect(e.message).toEqual('Param secret is not a string');
-    }
-  });
-
-  test('Param secret is not a string', () => {
-    try {
-      unsignSync(null, null);
-    } catch (e) {
-      expect(e instanceof TypeError).toBe(true);
-      expect(e.message).toEqual('Param secret is not a string');
-    }
-  });
-
-  test('Param secret is not a string', () => {
-    try {
-      unsignSync(null, {
-        secret: getRandSecret(),
-      });
-    } catch (e) {
-      expect(e instanceof TypeError).toBe(true);
-      expect(e.message).toEqual('Param signature is not a string');
-    }
-  });
-
-  test('Signature not match', async () => {
-    try {
-      unsignSync('eyJwYXlsb2FkIjoxMjN9.f4CeneRU2i1uNBu_YK4TjS0ykjXLbhgjFEmega855XU', {
-        secret: 'fixed-secret',
-      });
-    } catch (e) {
-      expect(e instanceof Error).toBe(false);
-      expect(e).toEqual({
-        error: {
-          type: 'invalid-signature',
-          message: 'Signature not match',
-        },
-      });
-    }
-  });
-
-  test('Custom error when signature not match', async () => {
-    try {
-      unsignSync('eyJwYXlsb2FkIjoxMjN9.f4CeneRU2i1uNBu_YK4TjS0ykjXLbhgjFEmega855XU', {
-        secret: 'fixed-secret',
-        error: new Error('Signature not match'),
-      });
-    } catch (e) {
-      expect(e instanceof Error).toBe(true);
-      expect(e.message).toEqual('Signature not match');
-    }
-  });
-
-});
-
-describe('ok', () => {
-  test('signSync works with rawData in string', async () => {
-    try {
-      const d = signSync('some data', {
-        secret: 'fixed-secret',
+  describe('sign', () => {
+    describe('error', () => {
+      it(`throws when undefined 'data'`, async () => {
+        try {
+          await sign(null!, null!);
+        } catch (e) {
+          expect(e).toStrictEqual(
+            new TypeError(`Expected 'data' to be defined, but received 'null'`));
+        }
       });
 
-      expect(d).toEqual('c29tZSBkYXRh.cn1vE2mTKJlwiFg042H6rdy-Qzpdyh1Ssy3NE0Hg0TE');
-    } catch (e) {
-      throw e;
-    }
-  });
-
-  test('signSync works with non-string rawData', async () => {
-    try {
-      const d = signSync({ payload: 123 }, {
-        secret: 'fixed-secret',
+      it(`throws when undefined 'secret'`, async () => {
+        try {
+          await sign(data, null!);
+        } catch (e) {
+          expect(e).toStrictEqual(
+            new TypeError(`Expected 'secret' to be defined, but received 'null'`));
+        }
       });
 
-      expect(d).toEqual('eyJwYXlsb2FkIjoxMjN9.f4CeneRU2i1uNBu_YK4TjS0ykjXLbhgjFEmega855xU');
-    } catch (e) {
-      throw e;
-    }
-  });
+    });
 
-  test('signSync works with custom options[separator]', async () => {
-    try {
-      const d = signSync({ payload: 123 }, {
-        secret: 'fixed-secret',
-        separator: ':',
+    describe('ok', () => {
+      it('returns', async () => {
+        try {
+          const d = await sign(data, secret);
+
+          // tslint:disable-next-line:max-line-length
+          expect(d).toStrictEqual('eyJkYXRhIjp7InNlY3JldEluc2lkZSI6IjEyMyIsInNlY3JldEtleSI6NDU2fX0.WlF_-gDYzfBBPksdvhVvaP_MQ9PWoRiwADbI3MapRg4');
+        } catch (e) {
+          throw e;
+        }
       });
 
-      expect(d).toEqual('eyJwYXlsb2FkIjoxMjN9:f4CeneRU2i1uNBu_YK4TjS0ykjXLbhgjFEmega855xU');
-    } catch (e) {
-      throw e;
-    }
-  });
+      it(`returns with defined 'options[separator]'`, async () => {
+        try {
+          const d = await sign(data, secret, {
+            separator: ':',
+          });
 
-  test('unsignSync works with rawData in string', async () => {
-    try {
-      const d = unsignSync('c29tZSBkYXRh.cn1vE2mTKJlwiFg042H6rdy-Qzpdyh1Ssy3NE0Hg0TE', {
-        secret: 'fixed-secret',
+          // tslint:disable-next-line:max-line-length
+          expect(d).toStrictEqual('eyJkYXRhIjp7InNlY3JldEluc2lkZSI6IjEyMyIsInNlY3JldEtleSI6NDU2fX0:WlF_-gDYzfBBPksdvhVvaP_MQ9PWoRiwADbI3MapRg4');
+        } catch (e) {
+          throw e;
+        }
       });
 
-      expect(d).toEqual('some data');
-    } catch (e) {
-      throw e;
-    }
+    });
   });
 
-  test('unsignSync works with non-string rawData', async () => {
-    try {
-      const d = unsignSync('eyJwYXlsb2FkIjoxMjN9.f4CeneRU2i1uNBu_YK4TjS0ykjXLbhgjFEmega855xU', {
-        secret: 'fixed-secret',
+  describe('unsign', () => {
+    // tslint:disable-next-line:max-line-length
+    const signature = 'eyJkYXRhIjp7InNlY3JldEluc2lkZSI6IjEyMyIsInNlY3JldEtleSI6NDU2fX0.WlF_-gDYzfBBPksdvhVvaP_MQ9PWoRiwADbI3MapRg4';
+
+    describe('error', () => {
+      it(`throws when undefined 'signature'`, async () => {
+        try {
+          await unsign(null!, null!);
+        } catch (e) {
+          expect(e).toStrictEqual(
+            new TypeError(`Expected 'signature' to be defined, but received 'null'`));
+        }
       });
 
-      expect(d).toEqual({ payload: 123 });
-    } catch (e) {
-      throw e;
-    }
-  });
-
-  test('unsignSync works with custom options[separator]', async () => {
-    try {
-      const d = unsignSync('eyJwYXlsb2FkIjoxMjN9:f4CeneRU2i1uNBu_YK4TjS0ykjXLbhgjFEmega855xU', {
-        secret: 'fixed-secret',
-        separator: ':',
+      it(`throws when undefined 'secret'`, async () => {
+        try {
+          await unsign(signature, null!);
+        } catch (e) {
+          expect(e).toStrictEqual(
+            new TypeError(`Expected 'secret' to be defined, but received 'null'`));
+        }
       });
 
-      expect(d).toEqual({ payload: 123 });
-    } catch (e) {
-      throw e;
-    }
-  });
+      it('throws when signature not match', async () => {
+        try {
+          await unsign('123.456', secret);
+        } catch (e) {
+          expect(e.toJSON()).toStrictEqual({
+            error: {
+              type: 'invalid_signature',
+              message: 'Signature not match',
+            },
+          });
+        }
+      });
 
-});
+    });
 
-describe('async', () => {
-  test('sign', async () => {
-    try {
-      await sign(null);
-    } catch (e) {
-      expect(e instanceof TypeError).toBe(true);
-      expect(e.message).toEqual('Param secret is not a string');
-    }
-  });
+    describe('ok', () => {
+      it('returns', async () => {
+        try {
+          const d = await unsign(signature, secret);
 
-  test('unsign', async () => {
-    try {
-      await unsign(null);
-    } catch (e) {
-      expect(e instanceof TypeError).toBe(true);
-      expect(e.message).toEqual('Param secret is not a string');
-    }
+          expect(d).toStrictEqual(data);
+        } catch (e) {
+          throw e;
+        }
+      });
+
+      it(`returns with defined 'options[separator]'`, async () => {
+        try {
+          // tslint:disable-next-line:max-line-length
+          const signature2 = 'eyJkYXRhIjp7InNlY3JldEluc2lkZSI6IjEyMyIsInNlY3JldEtleSI6NDU2fX0:WlF_-gDYzfBBPksdvhVvaP_MQ9PWoRiwADbI3MapRg4';
+          const d = await unsign(signature2, secret, {
+            separator: ':',
+          });
+
+          expect(d).toStrictEqual(data);
+        } catch (e) {
+          throw e;
+        }
+      });
+
+      it('returns with number string', async () => {
+        try {
+          const signature2 = 'eyJkYXRhIjoiMTIzIn0.xOlc5QaiPIH9l1ySgQG-PjAXPCl5TIC3FNcNwH-c7So';
+          const d = await unsign(signature2, secret);
+
+          expect(d).toStrictEqual('123');
+        } catch (e) {
+          throw e;
+        }
+      });
+
+      it('returns with number', async () => {
+        try {
+          const signature2 = 'eyJkYXRhIjoxMjN9.zw4SnCZn_aNwaOFed9e21UZfRJlDdnIyvyS9uey7VC4';
+          const d = await unsign(signature2, secret);
+
+          expect(d).toStrictEqual(123);
+        } catch (e) {
+          throw e;
+        }
+      });
+
+      it('returns with string', async () => {
+        try {
+          const signature2 = 'eyJkYXRhIjoieyAxMjMifQ.KNvYk83AzkqDuYNDGIpNSJJOM5obtkVk3ctRZM8uL7k';
+          const d = await unsign(signature2, secret);
+
+          expect(d).toStrictEqual('{ 123');
+        } catch (e) {
+          throw e;
+        }
+      });
+
+    });
   });
 
 });
