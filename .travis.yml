@@ -3,11 +3,16 @@ dist: trusty
 node_js:
   - v8
   - v9
+  - v10
 before_script:
-  - npm install codecov coveralls
+  - npm i -g npm@latest codecov coveralls --quiet
+  - npm ci --quiet
 script:
-  - npm run check
-  - npm run test
+  - npm run lint
+  - npm t
 after_success:
-  - 'cat ./coverage/lcov.info | codecov'
   - 'cat ./coverage/lcov.info | coveralls'
+  - 'cat ./coverage/lcov.info | codecov'
+cache:
+  directories:
+    - node_modules
