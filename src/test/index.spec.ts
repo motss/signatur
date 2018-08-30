@@ -1,12 +1,17 @@
 // @ts-check
 
+declare interface TestData {
+  secretInside: string;
+  secretKey: number;
+}
+
 import { sign, unsign } from '..';
 
 const getRandSecret = () => Math.random().toString(16).slice(-7);
 
 describe('signatur', () => {
   const secret = '123';
-  const data = {
+  const data: TestData = {
     secretInside: '123',
     secretKey: 456,
   };
@@ -102,7 +107,7 @@ describe('signatur', () => {
     describe('ok', () => {
       it('returns', async () => {
         try {
-          const d = await unsign(signature, secret);
+          const d = await unsign<TestData>(signature, secret);
 
           expect(d).toStrictEqual(data);
         } catch (e) {
