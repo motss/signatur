@@ -1,5 +1,3 @@
-
-6 lines (5 sloc) 108 Bytes
 {
   "extends": "./tsconfig.json",
   "include": ["src/*"],

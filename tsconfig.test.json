@@ -1,5 +1,3 @@
-
-12 lines (11 sloc) 163 Bytes
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
