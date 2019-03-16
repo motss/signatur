@@ -1,21 +1,18 @@
-// @ts-check
-
 export interface SignaturOptions {
   separator?: string;
 }
 
-declare interface DecodedData<T> {
+interface DecodedData<T> {
   data: T;
 }
-declare interface SignaturReturnError {
+interface SignaturReturnError {
   error: {
     type: string;
     message: string;
   };
 }
-declare interface KeyStringAny {
-  [key: string]: any;
-}
+
+type UnknownRecord = Record<string, unknown>;
 
 import crypto from 'crypto';
 
@@ -28,7 +25,6 @@ export class SignaturError extends Error {
     this.name = 'SignaturError';
     this.message = message;
     this.type = type;
-
   }
 
   public toJSON(): SignaturReturnError {
@@ -42,52 +38,44 @@ export class SignaturError extends Error {
 }
 
 function urlSafeBase64(s: string) {
-  return s.replace(/\+/gi, '-')
-    .replace(/\//gi, '_')
-    .replace(/=/gi, '');
+  return s.replace(/\+/gi, '-').replace(/\//gi, '_').replace(/=/gi, '');
 }
 
-export function signSync<T = KeyStringAny>(
+export function signSync<T extends UnknownRecord>(
   data: T,
   secret: string,
   options?: SignaturOptions
 ) {
-  const {
-    separator = '.',
-  } = options || {} as SignaturOptions;
+  const { separator = '.' }: SignaturOptions = options || {};
 
-  if (data == null) {
+  if (null == data) {
     throw new TypeError(
       `Expected 'data' to be defined, but received '${JSON.stringify(data)}'`);
   }
 
-  if (typeof secret !== 'string' || !secret.length) {
+  if ('string' !== typeof(secret) || !secret.length) {
     throw new TypeError(`Expected 'secret' to be defined, but received '${secret}'`);
   }
 
-  // const stringifiedData = typeof data !== 'string' ? JSON.stringify({ data }) : data;
   const stringData = JSON.stringify({ data });
+  const encoded = Buffer.from(stringData, 'utf8').toString('base64');
+  const signature = crypto.createHmac('sha256', secret).update(stringData).digest('base64');
 
-  return urlSafeBase64(`${
-    Buffer.from(stringData, 'utf8').toString('base64')}${
-    separator}${
-    crypto.createHmac('sha256', secret).update(stringData).digest('base64')}`);
+  return urlSafeBase64(`${encoded}${separator}${signature}`);
 }
 
-export function unsignSync<T = KeyStringAny>(
+export function unsignSync<T extends UnknownRecord>(
   signature: string,
   secret: string,
   options?: SignaturOptions
 ): T {
-  const {
-    separator = '.',
-  } = options || {} as SignaturOptions;
+  const { separator = '.' } = options || {} as SignaturOptions;
 
-  if (typeof signature !== 'string' || !signature.length) {
+  if ('string' !== typeof(signature) || !signature.length) {
     throw new TypeError(`Expected 'signature' to be defined, but received '${signature}'`);
   }
 
-  if (typeof secret !== 'string' || !secret.length) {
+  if ('string' !== typeof(secret) || !secret.length) {
     throw new TypeError(`Expected 'secret' to be defined, but received '${secret}'`);
   }
 
@@ -96,12 +84,9 @@ export function unsignSync<T = KeyStringAny>(
     (hash + '==='.slice((hash.length + 3) % 4))
       .replace(/\-/gi, '+')
       .replace(/_/gi, '/'), 'base64')
-      .toString('utf8');
+    .toString('utf8');
   const signedDecoded = urlSafeBase64(
-    crypto
-      .createHmac('sha256', secret)
-      .update(decoded)
-      .digest('base64'));
+    crypto.createHmac('sha256', secret).update(decoded).digest('base64'));
 
   if (enc !== signedDecoded) {
     throw new SignaturError('invalid_signature', 'Signature not match');
@@ -110,7 +95,7 @@ export function unsignSync<T = KeyStringAny>(
   return (JSON.parse(decoded) as DecodedData<T>).data;
 }
 
-export async function sign<T = KeyStringAny>(
+export async function sign<T extends UnknownRecord>(
   data: T,
   secret: string,
   options?: SignaturOptions
@@ -118,7 +103,7 @@ export async function sign<T = KeyStringAny>(
   return signSync<T>(data, secret, options);
 }
 
-export async function unsign<T = KeyStringAny>(
+export async function unsign<T extends UnknownRecord>(
   signature: string,
   secret: string,
   options?: SignaturOptions
