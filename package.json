@@ -1,6 +1,6 @@
 {
   "name": "@motss/signatur",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Sign and unsign HTTP request with ease",
   "keywords": [
     "http-signature",
