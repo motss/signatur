@@ -6,6 +6,8 @@
 
 <hr />
 
+[![Follow me][follow-me-badge]][follow-me-url]
+
 [![Version][version-badge]][version-url]
 [![Node version][node-version-badge]][node-version-url]
 [![MIT License][mit-license-badge]][mit-license-url]
@@ -15,7 +17,6 @@
 [![Packagephobia][packagephobia-badge]][packagephobia-url]
 [![Bundlephobia][bundlephobia-badge]][bundlephobia-url]
 
-[![Build Status][travis-badge]][travis-url]
 [![CircleCI][circleci-badge]][circleci-url]
 [![Dependency Status][daviddm-badge]][daviddm-url]
 [![codecov][codecov-badge]][codecov-url]
@@ -219,7 +220,9 @@ This methods works the same as `unsign(signature, secret[, options])` except tha
 [signaturoptions-url]: #signaturoptions
 
 <!-- Badges -->
-[version-badge]: https://flat.badgen.net/npm/v/@motss/signatur
+[follow-me-badge]: https://flat.badgen.net/twitter/follow/igarshmyb?icon=twitter
+
+[version-badge]: https://flat.badgen.net/npm/v/@motss/signatur?icon=npm
 [node-version-badge]: https://flat.badgen.net/npm/node/@motss/signatur
 [mit-license-badge]: https://flat.badgen.net/npm/license/@motss/signatur
 
@@ -228,10 +231,9 @@ This methods works the same as `unsign(signature, secret[, options])` except tha
 [packagephobia-badge]: https://flat.badgen.net/packagephobia/install/@motss/signatur
 [bundlephobia-badge]: https://flat.badgen.net/bundlephobia/minzip/@motss/signatur
 
-[travis-badge]: https://flat.badgen.net/travis/motss/signatur
-[circleci-badge]: https://flat.badgen.net/circleci/github/motss/signatur
+[circleci-badge]: https://flat.badgen.net/circleci/github/motss/signatur?icon=circleci
 [daviddm-badge]: https://flat.badgen.net/david/dep/motss/signatur
-[codecov-badge]: https://flat.badgen.net/codecov/c/github/motss/signatur?label=codecov
+[codecov-badge]: https://flat.badgen.net/codecov/c/github/motss/signatur?label=codecov&icon=codecov
 [coveralls-badge]: https://flat.badgen.net/coveralls/c/github/motss/signatur?label=coveralls
 
 [codebeat-badge]: https://codebeat.co/badges/ca431b21-4c3b-48bb-888f-f0ebdccfcd58?style=flat-square
@@ -239,6 +241,8 @@ This methods works the same as `unsign(signature, secret[, options])` except tha
 [coc-badge]: https://flat.badgen.net/badge/code%20of/conduct/pink
 
 <!-- Links -->
+[follow-me-url]: https://twitter.com/igarshmyb?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=motss/signatur
+
 [version-url]: https://www.npmjs.com/package/@motss/signatur
 [node-version-url]: https://nodejs.org/en/download
 [mit-license-url]: https://github.com/motss/signatur/blob/master/LICENSE
@@ -247,7 +251,6 @@ This methods works the same as `unsign(signature, secret[, options])` except tha
 [packagephobia-url]: https://packagephobia.now.sh/result?p=%40motss%2Fsignatur
 [bundlephobia-url]: https://bundlephobia.com/result?p=@motss/signatur
 
-[travis-url]: https://travis-ci.org/motss/signatur
 [circleci-url]: https://circleci.com/gh/motss/signatur/tree/master
 [daviddm-url]: https://david-dm.org/motss/signatur
 [codecov-url]: https://codecov.io/gh/motss/signatur
