@@ -1,3 +1,5 @@
+🚨 No longer maintained. Moved to [@reallyland/node_mod](https://github.com/reallyland/node_mod). 🚨
+
 <div align="center" style="text-align: center;">
   <h1 style="border-bottom: none;">signatur</h1>
 
@@ -32,21 +34,21 @@
 
 ## Table of contents
 
-- [Table of contents](#table-of-contents)
-- [Pre-requisites](#pre-requisites)
-- [Setup](#setup)
-  - [Install](#install)
-  - [Usage](#usage)
-    - [Node.js](#nodejs)
-    - [Native ES modules or TypeScript](#native-es-modules-or-typescript)
-- [API Reference](#api-reference)
-  - [SignaturError](#signaturerror)
-  - [SignaturOptions](#signaturoptions)
+- [Table of contents](#Table-of-contents)
+- [Pre-requisites](#Pre-requisites)
+- [Setup](#Setup)
+  - [Install](#Install)
+  - [Usage](#Usage)
+    - [Node.js](#Nodejs)
+    - [Native ES modules or TypeScript](#Native-ES-modules-or-TypeScript)
+- [API Reference](#API-Reference)
+  - [SignaturError](#SignaturError)
+  - [SignaturOptions](#SignaturOptions)
   - [sign(data, secret[, options])](#signdata-secret-options)
   - [unsign(signature, secret[, options])](#unsignsignature-secret-options)
-  - [signSync(data, secret[, options])](#signsyncdata-secret-options)
-  - [unsignSync(data, secret[, options])](#unsignsyncdata-secret-options)
-- [License](#license)
+  - [signSync(data, secret[, options])](#signSyncdata-secret-options)
+  - [unsignSync(data, secret[, options])](#unsignSyncdata-secret-options)
+- [License](#License)
 
 ## Pre-requisites
 
